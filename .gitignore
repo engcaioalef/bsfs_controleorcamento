@@ -1,0 +1,34 @@
+# Arquivo gerado em: https://www.toptal.com/developers/gitignore/api/python
+# Editado para clareza
+
+### Ambientes Virtuais ###
+# Ignora pastas de ambientes virtuais como venv, env, etc.
+venv/
+env/
+.venv/
+.env/
+
+### Arquivos de Cache e Bytecode do Python ###
+# Ignora o cache que o Python gera para acelerar a execução
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+### Arquivos de Banco de Dados ###
+# Ignora bancos de dados locais que não devem ir para o repositório
+*.db
+*.sqlite3
+
+### Arquivos de Configuração de Editores e IDEs ###
+# Ignora configurações específicas do seu editor de código
+.vscode/
+.idea/
+
+### Arquivos de Log ###
+# Ignora arquivos de log gerados pela aplicação
+*.log
+
+### Arquivos de Variáveis de Ambiente ###
+# MUITO IMPORTANTE: Nunca envie senhas, chaves de API ou segredos!
+.envvenv/

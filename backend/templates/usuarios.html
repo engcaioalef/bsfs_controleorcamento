@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item active">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Gestão de Usuários</h1>
+                <p>Crie e gerencie as contas de acesso ao sistema.</p>
+            </header>
+
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container-card">
+                <form id="form-usuario">
+                    <input type="hidden" id="usuario-id" name="usuario-id">
+                    <h3 id="form-title">Adicionar Novo Usuário</h3>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="nome_completo">Nome Completo</label>
+                            <input type="text" id="nome_completo" name="nome_completo" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">E-mail Corporativo</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="senha">Senha Inicial</label>
+                            <input type="password" id="senha" name="senha" required>
+                            <small>O usuário deverá alterar esta senha no primeiro login.</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="setor">Setor</label>
+                            <select id="setor" name="setor" required>
+                                <!-- Opções de setores carregadas via JS -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="papel">Papel (Permissão)</label>
+                            <select id="papel" name="papel" required>
+                                <!-- Opções de papéis carregadas via JS -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btn-cancelar" class="btn-secondary hidden">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Usuário</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabela para listar os usuários -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Setor</th>
+                            <th>Papel</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuarios-table-body">
+                        <!-- Linhas preenchidas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/usuarios.js') }}"></script>
+</body>
+</html>

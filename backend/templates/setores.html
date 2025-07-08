@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setores - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item active">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Gestão de Setores</h1>
+                <p>Gerencie os setores e departamentos da empresa.</p>
+            </header>
+
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container-card">
+                <form id="form-setor">
+                    <input type="hidden" id="setor-id" name="setor-id">
+                    <h3 id="form-title">Adicionar Novo Setor</h3>
+                    <div class="form-grid-simple">
+                        <div class="input-group">
+                            <label for="nome">Nome do Setor</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btn-cancelar" class="btn-secondary hidden">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabela para listar os setores -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="setores-table-body">
+                        <!-- Linhas preenchidas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/setores.js') }}"></script>
+</body>
+</html>

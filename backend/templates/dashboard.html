@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão Orçamentária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/cdn.min.js"></script>
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item active">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Dashboard</h1>
+                <p>Visão geral dos seus orçamentos e despesas.</p>
+            </header>
+            
+            <section class="summary-cards">
+                <div class="card">
+                    <h4>Orçado Anual</h4>
+                    <p id="total-orcado-anual">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h4>Realizado Anual</h4>
+                    <p id="total-realizado-anual">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h4>Orçado (Mês)</h4>
+                    <p id="total-orcado">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h4>Realizado (Mês)</h4>
+                    <p id="total-realizado">R$ 0,00</p>
+                </div>
+                <div class="card card-saldo">
+                    <h4>Saldo (Mês)</h4>
+                    <p id="saldo">R$ 0,00</p>
+                </div>
+            </section>
+
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h3>Comparativo Anual (Orçado vs. Realizado)</h3>
+                    <canvas id="yoyChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Projeção de Gastos por Centro de Custo (Últimos 6 meses)</h3>
+                    <div class="chart-filter-container">
+                        <label for="cc-filter-select">Filtrar Centros de Custo (múltipla seleção):</label>
+                        <select id="cc-filter-select" multiple></select>
+                    </div>
+                    <canvas id="centroCustoChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Projeção de Gastos por Grupo de Pagamento (Últimos 6 meses)</h3>
+                    <div class="chart-filter-container">
+                        <label for="gp-filter-select">Filtrar Grupos de Pagamento (múltipla seleção):</label>
+                        <select id="gp-filter-select" multiple></select>
+                    </div>
+                    <canvas id="grupoPagamentoChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Seção de Consulta Detalhada de Lançamentos -->
+            <section class="filter-section">
+                <div class="form-container-card">
+                    <h3>Consulta Detalhada de Lançamentos</h3>
+                    <div class="form-grid-simple">
+                        <div class="input-group">
+                            <label for="table-filter-type">Filtrar por</label>
+                            <select id="table-filter-type">
+                                <option value="centro_custo">Centro de Custo</option>
+                                <option value="grupo_pagamento">Grupo de Pagamento</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="table-filter-value">Selecione o Item</label>
+                            <select id="table-filter-value">
+                                <option value="">-- Selecione um tipo primeiro --</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="input-group">
+                        <label>Período</label>
+                        <div class="period-filter-buttons">
+                            <button class="btn-period" data-period="30">30 dias</button>
+                            <button class="btn-period" data-period="60">60 dias</button>
+                            <button class="btn-period" data-period="90">90 dias</button>
+                            <button class="btn-period" data-period="180">180 dias</button>
+                            <button class="btn-period active" data-period="365">1 Ano</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="table-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Centro de Custo</th>
+                                <th>Grupo de Pagamento</th>
+                                <th class="text-right">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lancamentos-filtrados-tbody">
+                            <tr>
+                                <td colspan="5" class="text-center">Selecione um filtro acima para ver os lançamentos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

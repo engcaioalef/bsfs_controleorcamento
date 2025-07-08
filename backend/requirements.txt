@@ -1,0 +1,16 @@
+# Framework principal da aplicação web
+Flask
+
+# Adaptador para conectar o Python ao banco de dados PostgreSQL
+psycopg2-binary
+
+# Para segurança, lida com senhas
+Werkzeug
+
+# (Opcional, mas recomendado) Para carregar variáveis de ambiente de um arquivo .env
+python-dotenv
+
+# Novas bibliotecas para ler e processar arquivos Excel
+pandas
+openpyxl
+xlrd

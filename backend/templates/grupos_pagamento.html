@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos de Pagamento - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item active">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Grupos de Pagamento</h1>
+                <p>Gerencie as categorias que classificam seus gastos.</p>
+            </header>
+
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container-card">
+                <form id="form-grupo-pagamento">
+                    <input type="hidden" id="grupo-id" name="grupo-id">
+                    <h3 id="form-title">Adicionar Novo Grupo</h3>
+                    <div class="form-grid-simple">
+                        <div class="input-group">
+                            <label for="nome">Nome do Grupo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="descricao">Descrição</label>
+                            <input type="text" id="descricao" name="descricao">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btn-cancelar" class="btn-secondary hidden">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabela para listar os grupos -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="grupos-table-body">
+                        <!-- Linhas preenchidas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/grupos_pagamento.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Lançamentos - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- O menu lateral é o mesmo do dashboard -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item active">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal da Página de Lançamentos -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Consulta de Lançamentos</h1>
+                <p>Visualize os lançamentos financeiros importados para o sistema.</p>
+            </header>
+
+            <!-- Tabela para listar os lançamentos -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Centro de Custo</th>
+                            <th>Grupo de Pagamento</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lancamentos-table-body">
+                        <!-- As linhas da tabela serão preenchidas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/lancamentos.js') }}"></script>
+</body>
+</html>

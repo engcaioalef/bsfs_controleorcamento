@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Senha - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Alteração de Senha Obrigatória</h2>
+            <p>Por segurança, você deve definir uma nova senha para o seu primeiro acesso.</p>
+            
+            <form id="form-trocar-senha">
+                <div class="input-group">
+                    <label for="senha_antiga">Senha Atual (fornecida pelo admin)</label>
+                    <input type="password" id="senha_antiga" name="senha_antiga" required>
+                </div>
+                <div class="input-group">
+                    <label for="nova_senha">Nova Senha</label>
+                    <input type="password" id="nova_senha" name="nova_senha" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirmar_senha">Confirme a Nova Senha</label>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" required>
+                </div>
+                <button type="submit" class="btn-primary">Alterar Senha e Acessar</button>
+                <div id="error-message" class="error-message"></div>
+            </form>
+            <div class="logout-link">
+                <a href="{{ url_for('logout') }}">Sair</a>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/trocar_senha.js') }}"></script>
+</body>
+</html>

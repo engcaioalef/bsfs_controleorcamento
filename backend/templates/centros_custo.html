@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centros de Custo - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item active">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Centros de Custo</h1>
+                <p>Gerencie os centros de custo e seus setores responsáveis.</p>
+            </header>
+
+            <!-- Formulário para Adicionar/Editar -->
+            <div class="form-container-card">
+                <form id="form-centro-custo">
+                    <input type="hidden" id="centro-custo-id" name="centro-custo-id">
+                    <h3 id="form-title">Adicionar Novo Centro de Custo</h3>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="nome">Nome do Centro de Custo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="codigo">Código (Opcional)</label>
+                            <input type="text" id="codigo" name="codigo">
+                        </div>
+                        <div class="input-group">
+                            <label for="setor_responsavel">Setor Responsável</label>
+                            <select id="setor_responsavel" name="setor_responsavel" required>
+                                <!-- Opções de setores serão carregadas via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="descricao">Descrição (Opcional)</label>
+                            <input type="text" id="descricao" name="descricao">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btn-cancelar" class="btn-secondary hidden">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabela para listar os centros de custo -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Código</th>
+                            <th>Setor Responsável</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="centros-custo-table-body">
+                        <!-- Linhas preenchidas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Notificação -->
+    <div id="notification-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modal-message"></p>
+            <div class="modal-actions">
+                <button id="modal-confirm-btn" class="btn-primary hidden">Confirmar</button>
+                <button id="modal-close-btn" class="btn-secondary">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/centros_custo.js') }}"></script>
+</body>
+</html>

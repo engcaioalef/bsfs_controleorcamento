@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importar Dados - Sistema Orçamentário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="display: block;">
+    <div class="dashboard-grid">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Gestão Orçamentária</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">Dashboard</a>
+                <a href="/cadastros/lancamentos" class="nav-item">Lançamentos</a>
+                {% if session.papel in ['Coordenador', 'Administrador'] %}
+                <a href="/cadastros/grupos-pagamento" class="nav-item">Grupos de Pagamento</a>
+                <a href="/cadastros/centros-custo" class="nav-item">Centros de Custo</a>
+                {% endif %}
+                {% if session.papel == 'Administrador' %}
+                <a href="/cadastros/usuarios" class="nav-item">Usuários</a>
+                <a href="/cadastros/setores" class="nav-item">Setores</a>
+                {% endif %}
+                <a href="/importar" class="nav-item active">Importar Dados</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p><strong>Usuário:</strong><br>{{ session.user_name }}</p>
+                    <p><strong>Setor:</strong><br>{{ session.user_setor }}</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Importar Dados</h1>
+                <p>Envie arquivos (Excel/CSV) para carregar orçamentos e lançamentos no sistema.</p>
+            </header>
+
+            <!-- Card de Importação -->
+            <div class="form-container-card">
+                <form id="form-import" enctype="multipart/form-data">
+                    <h3>Carregar Novo Arquivo</h3>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="tipo_arquivo">Tipo de Dados</label>
+                            <select id="tipo_arquivo" name="tipo_arquivo" required>
+                                <option value="">Selecione o tipo de dados a importar</option>
+                                <option value="orcamentos">Orçamentos</option>
+                                <option value="lancamentos">Lançamentos (Realizado)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="arquivo">Selecione o Arquivo</label>
+                            <input type="file" id="arquivo" name="arquivo" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Importar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Área de Status/Log da Importação -->
+            <div id="import-status" class="import-status-container">
+                <h4>Log de Importação</h4>
+                <pre id="log-output"></pre>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/importar.js') }}"></script>
+</body>
+</html>

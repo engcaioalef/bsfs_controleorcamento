@@ -1,0 +1,367 @@
+/* =================================== */
+/* ESTILOS GERAIS E DE LOGIN           */
+/* =================================== */
+:root {
+    --primary-color: #3b82f6; /* Azul moderno */
+    --primary-hover: #2563eb;
+    --background-light: #f8f9fa;
+    --text-dark: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --white: #ffffff;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.login-box p {
+    margin-bottom: 30px;
+    color: var(--text-muted);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.btn-primary {
+    width: 100%; /* Ocupa a largura total do container */
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.error-message {
+    margin-top: 15px;
+    color: #dc3545;
+    font-size: 14px;
+    height: 20px;
+}
+
+.logout-link {
+    margin-top: 20px;
+}
+
+/* =================================== */
+/* ESTILOS DO DASHBOARD (MODERNO)      */
+/* =================================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.sidebar {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 16px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item:hover {
+    background-color: #e9ecef;
+    color: var(--text-dark);
+}
+
+.nav-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.main-content {
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.main-header h1 {
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.main-header p {
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+/* --- Cards de Resumo --- */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--white);
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.card h4 {
+    margin-top: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.card p {
+    font-size: 1.8rem; /* Fonte reduzida */
+    font-weight: 700;
+    margin-bottom: 0;
+    word-break: break-all; /* Quebra a palavra se necessário */
+}
+
+.card.card-saldo p.negativo {
+    color: #dc3545;
+}
+.card.card-saldo p:not(.negativo) {
+    color: #198754;
+}
+
+/* --- Seções --- */
+.charts-section, .filter-section, .table-section {
+    margin-top: 40px;
+}
+
+.chart-container, .form-container-card, .table-container {
+    background-color: var(--white);
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.charts-section .chart-container {
+    margin-bottom: 24px;
+}
+
+
+.chart-container h3, .form-container-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+}
+
+.chart-filter-container {
+    margin-bottom: 20px;
+}
+
+.chart-filter-container label {
+    font-weight: 500;
+    margin-right: 10px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Estilo para o select múltiplo */
+.chart-filter-container select[multiple] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    min-height: 120px; /* Altura para mostrar múltiplas opções */
+}
+
+.chart-filter-container select[multiple]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* =================================== */
+/* ESTILOS PARA TABELAS DE DADOS       */
+/* =================================== */
+
+.table-container {
+    overflow: hidden;
+    max-height: 500px; /* Altura máxima para a tabela */
+    overflow-y: auto; /* Adiciona scroll vertical */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    position: sticky; /* Cabeçalho fixo */
+    top: 0;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+/* =================================== */
+/* ESTILOS PARA FORMULÁRIOS            */
+/* =================================== */
+
+.form-container-card {
+    margin-bottom: 0; /* Ajustado para a nova seção de filtros */
+}
+
+.form-grid-simple {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: end;
+}
+
+.period-filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-period {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    color: var(--text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-period.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.btn-period:hover:not(.active) {
+    background-color: #e9ecef;
+}
+
+
+/* ... (restante dos seus estilos) ... */
